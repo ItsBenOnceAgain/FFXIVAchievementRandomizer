@@ -19,7 +19,9 @@ class Title:
 
     def __str__(self):
         return_string = self.feminine_title
-        if self.feminine_title != self.masculine_title:
+        if not return_string:
+            return_string = "None"
+        elif self.feminine_title != self.masculine_title:
             return_string = self.feminine_title + "/" + self.masculine_title
         return return_string
 
