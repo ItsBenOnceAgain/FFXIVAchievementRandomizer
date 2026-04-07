@@ -1,56 +1,6 @@
 import json
 import achievement_data_structs
-
-def read_achievement_data_from_file():
-    file = open("Backend\\AchievementData\\FFXIV_Achievement_Data.json", "r")
-    achievement_data = json.loads(file.read())
-    achievement_list = {}
-    for achievement_id in achievement_data:
-        entry_data = achievement_data[achievement_id]["fields"]
-
-        achievement = achievement_data_structs.Achievement()
-        achievement.id = achievement_id
-        achievement.name = str(entry_data["Name"])
-        achievement.description = str(entry_data["Description"])
-        achievement.icon_path = str(entry_data["Icon"]["path_hr1"])
-        achievement.category = get_achievement_kind_from_string(str(entry_data["AchievementCategory"]["fields"]["AchievementKind"]["fields"]["Name"]))
-        achievement.hide_achievement = bool(entry_data["AchievementHideCondition"]["fields"]["HideAchievement"])
-        achievement.item_reward = str(entry_data["Item"]["fields"]["Name"])
-        
-        title = achievement_data_structs.Title()
-        title.feminine_title = str(entry_data["Title"]["fields"]["Feminine"])
-        title.masculine_title = str(entry_data["Title"]["fields"]["Masculine"])
-        title.is_prefix = bool(entry_data["Title"]["fields"]["IsPrefix"])
-
-        achievement.title = title
-
-        achievement_list[achievement_id] = achievement
-    
-    return achievement_list
-
-def get_achievement_kind_from_string(category_string):
-    kind = achievement_data_structs.AchievementKind.NONE
-    match(category_string):
-        case "Battle":
-            kind = achievement_data_structs.AchievementKind.BATTLE
-        case "PvP":
-            kind = achievement_data_structs.AchievementKind.PVP
-        case "Character":
-            kind = achievement_data_structs.AchievementKind.CHARACTER
-        case "Items":
-            kind = achievement_data_structs.AchievementKind.ITEMS
-        case "Crafting & Gathering" | "Gathering":
-            kind = achievement_data_structs.AchievementKind.CRAFTING_AND_GATHERING
-        case "Quests":
-            kind = achievement_data_structs.AchievementKind.QUESTS
-        case "Exploration":
-            kind = achievement_data_structs.AchievementKind.EXPLORATION
-        case "Grand Company":
-            kind = achievement_data_structs.AchievementKind.GRAND_COMPANY
-        case "Legacy":
-            kind = achievement_data_structs.AchievementKind.LEGACY
-    
-    return kind
+import achievement_file_manager
 
 def filter_out_bad_achievements(data):
     filtered_data = dict(filter(achievement_filter, data.items()))
@@ -100,7 +50,7 @@ def main():
     """Main console loop."""
     print("=== FFXIV Achievement Lookup ===")
     print("Loading Achievement Data...")
-    data = read_achievement_data_from_file()
+    data = achievement_file_manager.read_simple_achievement_data_from_file()
     data = filter_out_bad_achievements(data)
     print("Data loaded!")
     print("Type 'exit' to quit.\n")
