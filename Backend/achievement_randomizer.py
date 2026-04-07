@@ -52,6 +52,17 @@ def get_achievement_kind_from_string(category_string):
     
     return kind
 
+def filter_out_bad_achievements(data):
+    filtered_data = dict(filter(achievement_filter, data.items()))
+    return filtered_data
+
+def achievement_filter(key_value_pair):
+    key, value = key_value_pair
+    if value.category == achievement_data_structs.AchievementKind.LEGACY:
+        return False
+    else:
+        return True
+
 def display_achievement(achievement_id, data):
     """Display achievement data for the given ID."""
     if achievement_id in data:
@@ -88,10 +99,15 @@ def get_achievement_object_from_id(achievement_id, data):
 def main():
     """Main console loop."""
     print("=== FFXIV Achievement Lookup ===")
+    print("Loading Achievement Data...")
+    data = read_achievement_data_from_file()
+    data = filter_out_bad_achievements(data)
+    print("Data loaded!")
     print("Type 'exit' to quit.\n")
     
-    data = read_achievement_data_from_file()
+    
     if data is None:
+        print("Failed to load achievement data. Exiting.")
         return
     
     while True:
