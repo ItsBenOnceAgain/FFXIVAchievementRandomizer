@@ -34,3 +34,8 @@ class Achievement:
     icon_path = "None"
     item_reward = "None"
     title = Title()
+
+class FilterSettings:
+    allow_legacy_achievements = False
+    allow_empty_achievements = False
+    blacklisted_achievement_ids = []

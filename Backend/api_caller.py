@@ -2,7 +2,8 @@ import requests
 import json
 import achievement_data_structs
 
-base_achievement_url = "https://v2.xivapi.com/api/sheet/Achievement"
+base_url = "https://xivapi.com/api"
+base_achievement_url = f"{base_url}/sheet/Achievement"
 
 def get_achievements(after = 0):
     full_url = base_achievement_url + "?after=" + str(after) + "&limit=100"
