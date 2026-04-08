@@ -52,39 +52,13 @@ def get_achievement_object_from_id(achievement_id, data):
         print(f"Achievement ID '{achievement_id}' not found.")
         return None
 
-# def main():
-#     """Main console loop."""
-#     print("=== FFXIV Achievement Lookup ===")
-#     print("Loading Achievement Data...")
-#     data = achievement_file_manager.read_simple_achievement_data_from_file()
-#     data = filter_out_bad_achievements(data)
-#     print("Data loaded!")
-#     print("Type 'exit' to quit.\n")
-    
-    
-#     if data is None:
-#         print("Failed to load achievement data. Exiting.")
-#         return
-    
-#     while True:
-#         try:
-#             user_input = input("Enter achievement ID: ").strip()
-            
-#             if user_input.lower() == 'exit':
-#                 print("Goodbye!")
-#                 break
-            
-#             if not user_input:
-#                 print("Please enter a valid ID.\n")
-#                 continue
-            
-#             display_achievement(user_input, data)
-            
-#         except KeyboardInterrupt:
-#             print("\n\nGoodbye!")
-#             break
-#         except Exception as e:
-#             print(f"Error: {e}\n")
+#
+def main():
+    update_achievement_data()
 
-# if __name__ == "__main__":
-#     main()
+def update_achievement_data():
+    data = achievement_file_manager.read_achievement_data_from_file()
+    achievement_file_manager.write_simple_achievement_data_to_file(data)
+
+if __name__ == "__main__":
+    main()

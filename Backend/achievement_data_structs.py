@@ -11,6 +11,7 @@ class AchievementKind(Enum):
     EXPLORATION = 8
     GRAND_COMPANY = 9
     LEGACY = 10
+    SEASONAL = 11
 
 class Title:
     feminine_title = ""
@@ -38,4 +39,5 @@ class Achievement:
 class FilterSettings:
     allow_legacy_achievements = False
     allow_empty_achievements = False
+    allow_seasonal_achievements = False
     blacklisted_achievement_ids = []

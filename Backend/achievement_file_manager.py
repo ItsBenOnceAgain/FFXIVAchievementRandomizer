@@ -28,6 +28,11 @@ def read_achievement_data_from_file():
         achievement.description = str(entry_data["Description"])
         achievement.icon_path = str(entry_data["Icon"]["path_hr1"])
         achievement.category = get_achievement_kind_from_string(str(entry_data["AchievementCategory"]["fields"]["AchievementKind"]["fields"]["Name"]))
+
+        # filter out seasonal achievements
+        if str(str(entry_data["AchievementCategory"]["fields"]["Name"])) == "Seasonal Events":
+            achievement.category = achievement_data_structs.AchievementKind.SEASONAL
+
         achievement.hide_achievement = bool(entry_data["AchievementHideCondition"]["fields"]["HideAchievement"])
         achievement.item_reward = str(entry_data["Item"]["fields"]["Name"])
         
