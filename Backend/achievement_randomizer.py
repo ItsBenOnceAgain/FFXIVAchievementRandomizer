@@ -9,6 +9,8 @@ def filter_out_bad_achievements(data, filter_settings: achievement_data_structs.
 def achievement_filter(key_value_pair, filter_settings: achievement_data_structs.FilterSettings):
     key, value = key_value_pair
     is_valid = True
+    if not filter_settings:
+        filter_settings
     if filter_settings.allow_empty_achievements == False and (value.name == "None" or value.name.strip() == ""):
         is_valid = False
     if filter_settings.allow_legacy_achievements == False and value.category == achievement_data_structs.AchievementKind.LEGACY:
