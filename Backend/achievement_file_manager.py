@@ -3,7 +3,7 @@ import jsonpickle
 import api_caller
 import achievement_data_structs
 
-file_path = "Backend\\AchievementData\\"
+file_path = "AchievementData\\"
 
 def read_simple_achievement_data_from_file():
     file = open(f"{file_path}FFXIV_Simple_Achievement_Data.json", "r")
