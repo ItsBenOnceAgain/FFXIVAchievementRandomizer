@@ -10,10 +10,12 @@ def achievement_filter(key_value_pair, filter_settings: achievement_data_structs
     key, value = key_value_pair
     is_valid = True
     if not filter_settings:
-        filter_settings
+        filter_settings = achievement_data_structs.FilterSettings()
     if filter_settings.allow_empty_achievements == False and (value.name == "None" or value.name.strip() == ""):
         is_valid = False
     if filter_settings.allow_legacy_achievements == False and value.category == achievement_data_structs.AchievementKind.LEGACY:
+        is_valid = False
+    if filter_settings.allow_seasonal_achievements == False and value.category == achievement_data_structs.AchievementKind.SEASONAL:
         is_valid = False
     if key in filter_settings.blacklisted_achievement_ids:
         is_valid = False
@@ -53,12 +55,12 @@ def get_achievement_object_from_id(achievement_id, data):
         return None
 
 #
-def main():
-    update_achievement_data()
+# def main():
+#     update_achievement_data()
 
-def update_achievement_data():
-    data = achievement_file_manager.read_achievement_data_from_file()
-    achievement_file_manager.write_simple_achievement_data_to_file(data)
+# def update_achievement_data():
+#     data = achievement_file_manager.read_achievement_data_from_file()
+#     achievement_file_manager.write_simple_achievement_data_to_file(data)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
