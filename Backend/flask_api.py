@@ -1,4 +1,5 @@
 from flask import Flask, request
+import flask
 import achievement_randomizer
 import achievement_file_manager
 import achievement_data_structs
@@ -6,18 +7,25 @@ import jsonpickle
 import random
 
 app = Flask(__name__)
+frontend_url = 'http://localhost:5173'
 
 @app.route('/achievement_data/<achievement_id>', methods=['GET'])
 def get_achievement(achievement_id):
     data = achievement_file_manager.read_simple_achievement_data_from_file()
+    response = flask.Response()
     if achievement_id not in data:
-        return "Achievement not found", 404
-    return jsonpickle.encode(data[achievement_id], unpicklable=False)
+        response = flask.Response("Achievement not found", status=404)
+    else:
+        response = flask.Response(jsonpickle.encode(data[achievement_id], unpicklable=False))
+    response.headers['Access-Control-Allow-Origin'] = frontend_url
+    return response
 
 @app.route('/achievement_data', methods=['GET'])
 def get_all_achievements():
     data = achievement_file_manager.read_simple_achievement_data_from_file()
-    return jsonpickle.encode(data, unpicklable=False)
+    respone = flask.Response(jsonpickle.encode(data, unpicklable=False))
+    respone.headers['Access-Control-Allow-Origin'] = frontend_url
+    return respone
 
 @app.route('/filtered_achievement_data', methods=['GET'])
 def get_filtered_achievements():
@@ -29,7 +37,9 @@ def get_filtered_achievements():
     filter.blacklisted_achievement_ids = request.args.get("blacklisted_achievement_ids", "").split(",") if request.args.get("blacklisted_achievement_ids", "") else [] 
 
     data = achievement_randomizer.filter_out_bad_achievements(data, filter)
-    return jsonpickle.encode(data, unpicklable=False)
+    response = flask.Response(jsonpickle.encode(data, unpicklable=False))
+    response.headers['Access-Control-Allow-Origin'] = frontend_url
+    return response
 
 @app.route('/random_achievement', methods=['GET'])
 def get_random_achievement():
@@ -44,6 +54,7 @@ def get_random_achievement():
 
     random_key = list(data.keys())[random.randint(0, len(data) - 1)]
     random_achievement = data[random_key]
-
-    return jsonpickle.encode(random_achievement, unpicklable=False)
+    response = flask.Response(jsonpickle.encode(random_achievement, unpicklable=False))
+    response.headers['Access-Control-Allow-Origin'] = frontend_url
+    return response
     
