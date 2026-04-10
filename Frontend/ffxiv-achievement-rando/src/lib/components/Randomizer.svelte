@@ -1,10 +1,13 @@
 <script>
     import { Achievement, Title } from '$lib/models/models';
     import AchievementDisplay from '$lib/components/AchievementDisplay.svelte';
+    import '$lib/styles/randomizer.scss';
 
     let achievement = $state(new Achievement());
     let loading = $state(false);
     let errorMessage = $state("");
+    let allow_legacy = $state(false);
+    let allow_seasonal = $state(false);
 
     async function fetchRandomAchievement() {
         loading = true;
@@ -38,18 +41,33 @@
     }
 </script>
 
-<button onclick={fetchRandomAchievement} disabled={loading}>
-    {#if loading}
-        Loading...
-    {:else}
-        Get Random Achievement
+<div id="randomizer-grid">
+    <div id="randomizer-options">
+        <button id="randomizer-button" onclick={fetchRandomAchievement} disabled={loading}>
+            {#if loading}
+                Loading...
+            {:else}
+                Generate!
+            {/if}
+        </button>
+        <div id="options-header">
+            OPTIONS
+        </div>
+        <div class="option"><input type="checkbox" bind:checked={allow_legacy} />Allow Legacy Achievements</div>
+        <div class="option"><input type="checkbox" bind:checked={allow_seasonal} />Allow Seasonal Achievements</div>
+    </div>
+
+    {#if errorMessage}
+        <p class="error">{errorMessage}</p>
     {/if}
-</button>
 
-{#if errorMessage}
-    <p class="error">{errorMessage}</p>
-{/if}
+    {#if achievement.id !== 0}
+        <div id="achievement-display">
+            <div id="achievement-display-header">
+                Achievement Details
+            </div>
+            <AchievementDisplay {achievement} />
+        </div>
+    {/if}
+</div>
 
-{#if achievement.id !== 0}
-    <AchievementDisplay {achievement} />
-{/if}

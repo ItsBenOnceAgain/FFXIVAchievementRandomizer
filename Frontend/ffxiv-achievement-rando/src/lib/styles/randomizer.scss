@@ -1,0 +1,70 @@
+$button-color: #594e43;
+$button-hover-color: #483627;
+$button-active-color: #202020;
+$button-border-color: #000;
+$button-text-color: #ddd;
+
+$banner-url: url('$lib/assets/banner.png');
+$options-banner-url: url('$lib/assets/optionsBanner.png');
+
+#randomizer-grid {
+    display: grid;
+    grid-template-columns: 300px auto;
+    gap: 5px;
+}
+
+#randomizer-options {
+    grid-column: 1;
+}
+
+#achievement-display {
+    grid-column: 2;
+}
+
+#randomizer-button {
+    background-color: $button-color;
+    color: $button-text-color;
+    padding: 10px 6px;
+    font-size: 28px;
+    margin: auto;
+    width: 290px;
+    border: 3px solid $button-border-color;
+    border-radius: 12px;
+    filter: drop-shadow(5px 5px 5px #777);
+}
+
+#randomizer-button:hover {
+    background-color: $button-hover-color;
+}
+
+#randomizer-button:active {
+    background-color: $button-active-color;
+}
+
+#achievement-display-header {
+    background-image: $banner-url;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+#options-header {
+    background-image: $options-banner-url;
+    background-position: left;
+    background-size: fill;
+    background-repeat: no-repeat;
+    text-align: left;
+    font-size: 28px;
+    padding: 5px;
+    padding-left: 20px;
+    border-bottom: 3px dashed black;
+    margin: 10px 5px;
+}
+
+.option {
+    font-size: 16px;
+    padding: 3px;
+    margin: 10px;
+}

@@ -8,9 +8,14 @@ $full-background-url: url('$lib/assets/mapBackground.webp');
 $content-width: 1250px;
 $content-height: 725px;
 
+$font-stack: Helvetica, sans-serif;
+$primary-color: #554039;
+
 body {
     background-image: $full-background-url;
     background-size: fill;
+    font: 100% $font-stack;
+    color: $primary-color;
 }
 
 #main-page-scaler {
