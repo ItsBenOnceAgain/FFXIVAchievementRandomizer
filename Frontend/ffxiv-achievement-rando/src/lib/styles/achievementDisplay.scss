@@ -1,45 +1,49 @@
-$font-stack: Helvetica, sans-serif;
-$primary-color: #554039;
 $primary-bg-color: #e1d9c8;
 
-.achievement-body {
+#achievement-body {
     display: grid;
     grid-template-columns: 110px auto 275px;
-    grid-template-rows: 110px auto auto;
-    font: 100% $font-stack;
-    color: $primary-color;
+    grid-template-rows: 110px auto;
     background-color: $primary-bg-color;
     border: 3px solid #6b583d;
-    border-radius: 10px;
-    margin: 5px auto;
+    border-radius: 20px;
+    margin: auto 8px;
     filter: drop-shadow(5px 5px 5px #777);
 }
 
-.achievement-name {
-    grid-column: 2;
-}
-
-.achievement-description {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row: 2;
-    margin: 5px;
-}
-
-.category {
-    grid-column-start: 1;
-    grid-column-end: 4;
-    grid-row: 3;
-    place-items: left;
-}
-
-.achievement-icon {
+#achievement-icon {
     grid-column: 1;
 }
 
-.reward {
+#achievement-name {
+    grid-column: 2;
+}
+
+#achievement-description {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row: 2;
+    margin: 10px;
+}
+
+#achievement-details {
+    display: grid;
     grid-column: 3;
     grid-row-start: 1;
-    grid-row-end: 4;
-    margin: auto 0;
+    grid-row-end: 3;
+}
+
+#category {
+    grid-row: 1;
+    margin: 10px 10px auto 10px;
+    border-radius: 15px;
+    padding: 3px;
+    font-size: 24px;
+    text-align: center;
+    box-shadow: 0px 0px 20px #000;
+}
+
+#reward {
+    grid-row: 2;
+    margin-top: 10px;
 }
