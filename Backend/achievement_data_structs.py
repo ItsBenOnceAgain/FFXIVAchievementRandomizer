@@ -32,8 +32,10 @@ class Achievement:
     description = "None"
     category = AchievementKind.NONE
     hide_achievement = False
+    points = 0
     icon_path = "None"
     item_reward = "None"
+    item_icon_path = "None"
     title = Title()
 
 class FilterSettings:

@@ -54,13 +54,13 @@ def get_achievement_object_from_id(achievement_id, data):
         print(f"Achievement ID '{achievement_id}' not found.")
         return None
 
-#
-# def main():
-#     update_achievement_data()
 
-# def update_achievement_data():
-#     data = achievement_file_manager.read_achievement_data_from_file()
-#     achievement_file_manager.write_simple_achievement_data_to_file(data)
+def main():
+    update_achievement_data()
 
-# if __name__ == "__main__":
-#     main()
+def update_achievement_data():
+    data = achievement_file_manager.read_achievement_data_from_file()
+    achievement_file_manager.write_simple_achievement_data_to_file(data)
+
+if __name__ == "__main__":
+    main()

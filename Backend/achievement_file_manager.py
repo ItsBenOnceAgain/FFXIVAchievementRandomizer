@@ -20,6 +20,7 @@ def read_achievement_data_from_file():
     achievement_data = json.loads(file.read())
     achievement_list = {}
     for achievement_id in achievement_data:
+        print("Writing data for achievement " + achievement_id)
         entry_data = achievement_data[achievement_id]["fields"]
 
         achievement = achievement_data_structs.Achievement()
@@ -35,6 +36,9 @@ def read_achievement_data_from_file():
 
         achievement.hide_achievement = bool(entry_data["AchievementHideCondition"]["fields"]["HideAchievement"])
         achievement.item_reward = str(entry_data["Item"]["fields"]["Name"])
+        achievement.item_icon_path = str(entry_data["Item"]["fields"]["Icon"]["path_hr1"])
+
+        achievement.points = int(entry_data["Points"])
         
         title = achievement_data_structs.Title()
         title.feminine_title = str(entry_data["Title"]["fields"]["Feminine"])
