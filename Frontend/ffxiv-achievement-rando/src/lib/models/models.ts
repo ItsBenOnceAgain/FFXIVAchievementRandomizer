@@ -13,4 +13,16 @@ export class Title {
     feminine_title: string = "";
     masculine_title: string = "";
     is_prefix: boolean = false;
+
+    public toString(): string {
+        if (this.masculine_title !== this.feminine_title) {
+            return `${this.masculine_title} / ${this.feminine_title}`;
+        } else if (this.masculine_title) {
+            return this.masculine_title;
+        } else if (this.feminine_title) {
+            return this.feminine_title;
+        } else {
+            return "";
+        }
+    }
 }

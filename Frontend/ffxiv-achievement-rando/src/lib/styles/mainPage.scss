@@ -1,0 +1,44 @@
+$background-image-height: 1028px;
+$background-image-width: 1500px;
+$background-image-url: url('$lib/assets/mainLayoutBackground.png');
+$content-top-margin: 200px;
+
+$full-background-url: url('$lib/assets/mapBackground.webp');
+
+$content-width: 1250px;
+$content-height: 725px;
+
+body {
+    background-image: $full-background-url;
+    background-size: fill;
+}
+
+#main-page-scaler {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+#main-page-wrapper {
+    position: absolute;
+    width: $background-image-width;
+    height: $background-image-height;
+    background-image: $background-image-url;
+    background-size: cover;
+}
+
+#main-page-content-wrapper {
+    position: relative;
+    margin-top: $content-top-margin;
+    display: flex;
+    justify-content: center;
+}
+
+#main-page-content {
+    position: absolute;
+    width: $content-width;
+    height: $content-height;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}

@@ -1,0 +1,45 @@
+$font-stack: Helvetica, sans-serif;
+$primary-color: #554039;
+$primary-bg-color: #e1d9c8;
+
+.achievement-body {
+    display: grid;
+    grid-template-columns: 110px auto 275px;
+    grid-template-rows: 110px auto auto;
+    font: 100% $font-stack;
+    color: $primary-color;
+    background-color: $primary-bg-color;
+    border: 3px solid #6b583d;
+    border-radius: 10px;
+    margin: 5px auto;
+    filter: drop-shadow(5px 5px 5px #777);
+}
+
+.achievement-name {
+    grid-column: 2;
+}
+
+.achievement-description {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row: 2;
+    margin: 5px;
+}
+
+.category {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row: 3;
+    place-items: left;
+}
+
+.achievement-icon {
+    grid-column: 1;
+}
+
+.reward {
+    grid-column: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    margin: auto 0;
+}
