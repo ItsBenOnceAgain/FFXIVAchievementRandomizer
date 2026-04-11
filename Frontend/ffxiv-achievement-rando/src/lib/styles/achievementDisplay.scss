@@ -2,7 +2,7 @@ $primary-bg-color: #e1d9c8;
 
 #achievement-body {
     display: grid;
-    grid-template-columns: 110px auto 275px;
+    grid-template-columns: 110px auto 150px 275px;
     grid-template-rows: 110px auto;
     background-color: $primary-bg-color;
     border: 3px solid #6b583d;
@@ -28,9 +28,17 @@ $primary-bg-color: #e1d9c8;
 
 #achievement-details {
     display: grid;
+    grid-column: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+#achievement-points {
     grid-column: 3;
     grid-row-start: 1;
     grid-row-end: 3;
+    z-index: 2;
+    margin: auto;
 }
 
 #category {

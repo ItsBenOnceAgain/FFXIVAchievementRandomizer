@@ -1,0 +1,40 @@
+$zero-url: url('$lib/assets/achievementPoint0.png');
+$one-url: url('$lib/assets/achievementPoint1.png');
+$two-url: url('$lib/assets/achievementPoint2.png');
+$three-url: url('$lib/assets/achievementPoint3.png');
+$medal-image-height: 175px;
+$medal-image-width: 150px;
+$number-color: #eee;
+
+#achievementPointCounter {
+    display: flex;
+    background-repeat: no-repeat;
+    color: $number-color;
+    width: $medal-image-width;
+    height: $medal-image-height;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+}
+
+.pointCounterZero {
+    background-image: $zero-url;
+}
+
+.pointCounterOne {
+    background-image: $one-url;
+}
+
+.pointCounterTwo {
+    background-image: $two-url;
+}
+
+.pointCounterThree {
+    background-image: $three-url;
+}
+
+#pointHolder {
+    transform: translateY(-13%);
+}

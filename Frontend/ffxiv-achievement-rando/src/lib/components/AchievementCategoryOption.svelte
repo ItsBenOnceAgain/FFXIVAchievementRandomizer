@@ -1,12 +1,13 @@
 <script lang="ts">
     import '$lib/styles/achievementCategoryOption.scss';
     import { getCleanCategoryName } from '$lib/scripts/commonScripts';
-    import categoryBackground from '$lib/assets/achievementCategoryBackground.png';
 
-    let {category_name} : { category_name: string } = $props();
+    let {category_name, is_checked = false} : { category_name: string, is_checked: boolean} = $props();
 </script>
 
-<div class="category-wrapper">
-    <img class="category-background-image" src={categoryBackground} alt={"Category Background"}/>
-    <h2 class="category-name">{getCleanCategoryName(category_name)}</h2>
+<div class="flex-category-wrapper">
+    <div class="category-wrapper">
+        <input class="category-checkbox" type="checkbox" bind:checked={is_checked} />
+        <div class="category-name"><strong>{getCleanCategoryName(category_name)}</strong></div>
+    </div>
 </div>

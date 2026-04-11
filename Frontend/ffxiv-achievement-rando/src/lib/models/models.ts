@@ -3,6 +3,8 @@ export class Achievement {
     name: string = "";
     description: string = "";
     icon_path: string = "";
+    item_icon_path: string = "";
+    points: number = 0;
     category: string = "";
     hide_achievement: boolean = false;
     item_reward: string = "";

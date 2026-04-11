@@ -1,6 +1,6 @@
 <script lang="ts">
-    import '../styles/achievementIcon.scss';
-    import iconWrapper from '../assets/achievementIconWrapper.png';
+    import '$lib/styles/achievementIcon.scss';
+    import iconWrapper from '$lib/assets/achievementIconWrapper.png';
     let base_icon_url = "https://v2.xivapi.com/api/asset?format=webp&path="
     let {icon_path, achievement_name} : { icon_path: string, achievement_name: string } = $props();
 </script>
