@@ -2,7 +2,7 @@
     import '$lib/styles/achievementCategoryOption.scss';
     import { getCleanCategoryName } from '$lib/scripts/commonScripts';
 
-    let {category_name, is_checked = false} : { category_name: string, is_checked: boolean} = $props();
+    let {category_name, is_checked = $bindable(false)} : {category_name: string, is_checked: boolean} = $props();
 </script>
 
 <div class="flex-category-wrapper">

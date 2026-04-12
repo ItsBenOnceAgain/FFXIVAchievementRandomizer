@@ -13,28 +13,11 @@ def achievement_filter(key_value_pair, filter_settings: achievement_data_structs
         filter_settings = achievement_data_structs.FilterSettings()
     if filter_settings.allow_empty_achievements == False and (value.name == "None" or value.name.strip() == ""):
         is_valid = False
-    if filter_settings.allow_legacy_achievements == False and value.category == achievement_data_structs.AchievementKind.LEGACY:
-        is_valid = False
-    if filter_settings.allow_seasonal_achievements == False and value.category == achievement_data_structs.AchievementKind.SEASONAL:
+    if value.category.value not in filter_settings.allowed_categories:
         is_valid = False
     if key in filter_settings.blacklisted_achievement_ids:
         is_valid = False
     return is_valid
-
-def display_achievement(achievement_id, data):
-    """Display achievement data for the given ID."""
-    if achievement_id in data:
-        achievement = data[achievement_id]
-        print(f"\n--- Achievement ID: {achievement_id} ---")
-        print(f"Name: {achievement.name}")
-        print(f"Description: {achievement.description}")
-        print(f"Category: {achievement.category.name}")
-        print(f"Hidden: {'Yes' if achievement.hide_achievement else 'No'}")
-        print(f"Item Reward: {achievement.item_reward}")
-        print(f"Title: {achievement.title}")
-        print()
-    else:
-        print(f"\nAchievement ID '{achievement_id}' not found.\n")
 
 def get_achievement_object_from_id(achievement_id, data):
     """Return an achievement object for the given ID."""
