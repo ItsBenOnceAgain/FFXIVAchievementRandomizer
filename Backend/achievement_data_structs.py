@@ -39,7 +39,9 @@ class Achievement:
     title = Title()
 
 class FilterSettings:
-    allow_legacy_achievements = False
     allow_empty_achievements = False
-    allow_seasonal_achievements = False
+    allowed_categories = []
     blacklisted_achievement_ids = []
+
+class CategoryFormatException(Exception):
+    pass

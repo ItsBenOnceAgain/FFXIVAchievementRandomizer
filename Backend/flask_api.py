@@ -29,32 +29,44 @@ def get_all_achievements():
 
 @app.route('/filtered_achievement_data', methods=['GET'])
 def get_filtered_achievements():
-    data = achievement_file_manager.read_simple_achievement_data_from_file()
-    filter = achievement_data_structs.FilterSettings()
-    filter.allow_empty_achievements = request.args.get("allow_empty_achievements", "false").lower() == "true"
-    filter.allow_legacy_achievements = request.args.get("allow_legacy_achievements", "false").lower() == "true"
-    filter.allow_seasonal_achievements = request.args.get("allow_seasonal_achievements", "false").lower() == "true"
-    filter.blacklisted_achievement_ids = request.args.get("blacklisted_achievement_ids", "").split(",") if request.args.get("blacklisted_achievement_ids", "") else [] 
+    try:
+        data = get_filtered_achievement_from_request(request)
+    except achievement_data_structs.CategoryFormatException as e:
+        return e.args[0], 400
 
-    data = achievement_randomizer.filter_out_bad_achievements(data, filter)
     response = flask.Response(jsonpickle.encode(data, unpicklable=False))
     response.headers['Access-Control-Allow-Origin'] = frontend_url
     return response
 
 @app.route('/random_achievement', methods=['GET'])
 def get_random_achievement():
-    data = achievement_file_manager.read_simple_achievement_data_from_file()
-    filter = achievement_data_structs.FilterSettings()
-    filter.allow_empty_achievements = request.args.get("allow_empty_achievements", "false").lower() == "true"
-    filter.allow_legacy_achievements = request.args.get("allow_legacy_achievements", "false").lower() == "true"
-    filter.allow_seasonal_achievements = request.args.get("allow_seasonal_achievements", "false").lower() == "true"
-    filter.blacklisted_achievement_ids = request.args.get("blacklisted_achievement_ids", "").split(",") if request.args.get("blacklisted_achievement_ids", "") else [] 
+    try:
+        data = get_filtered_achievement_from_request(request)
+    except achievement_data_structs.CategoryFormatException as e:
+        return e.args[0], 400
 
-    data = achievement_randomizer.filter_out_bad_achievements(data, filter)
+    random_achievement = {}
 
-    random_key = list(data.keys())[random.randint(0, len(data) - 1)]
-    random_achievement = data[random_key]
+    if len(data) > 0:
+        random_key = list(data.keys())[random.randint(0, len(data) - 1)]
+        random_achievement = data[random_key]
+    
     response = flask.Response(jsonpickle.encode(random_achievement, unpicklable=False))
     response.headers['Access-Control-Allow-Origin'] = frontend_url
     return response
     
+def get_filtered_achievement_from_request(request):
+    data = achievement_file_manager.read_simple_achievement_data_from_file()
+    filter = achievement_data_structs.FilterSettings()
+    filter.allow_empty_achievements = request.args.get("allow_empty_achievements", "false").lower() == "true"
+    allowed_category_strings = request.args.get("allowed_categories", "2,3,4,5,6,7,8,9").split(",")
+    filter.allowed_categories = []
+    try:
+        filter.allowed_categories = [int(category) for category in allowed_category_strings]
+    except:
+        raise achievement_data_structs.CategoryFormatException("Category not in the correct format; must be a whole number.")
+
+    filter.blacklisted_achievement_ids = [x for x in request.args.get("blacklisted_achievement_ids", "").split(",") if x]
+
+    data = achievement_randomizer.filter_out_bad_achievements(data, filter)
+    return data

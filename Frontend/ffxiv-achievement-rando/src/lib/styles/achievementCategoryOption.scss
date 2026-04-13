@@ -1,23 +1,38 @@
-$category-height: 70px;
+$category-height: 45px;
+$category-width: 300px;
+$background-image: url('$lib/assets/achievementCategoryBackground.png');
 
-.category-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: $category-height;
-    margin: 10px auto;
+input[type='checkbox'] {
+    width:20px;
+    height:20px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+}
+input[type='checkbox']:checked {
+    background: #abd;
 }
 
-.category-background-image {
-    object-fit: contain;
-    position: absolute;
-    flex-shrink: 0;
+.flex-category-wrapper {
+    position: relative;
+    background-image: $background-image;
+    background-size: contain;
+    background-repeat: no-repeat;
     height: $category-height;
+    width: $category-width;
+    display: flex;
+    align-items: center;
+}
+
+.category-wrapper {
+    margin: 0 20px;
 }
 
 .category-name {
-    text-align: center;
+    display: inline-block;
+    text-align: left;
     position: absolute;
-    font-size: 1.4em;
+    font-size: 1.2em;
+    margin-bottom: 2px;
+    margin-left: 10px;
 }

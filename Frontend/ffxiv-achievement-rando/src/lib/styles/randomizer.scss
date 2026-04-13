@@ -4,21 +4,31 @@ $button-active-color: #202020;
 $button-border-color: #000;
 $button-text-color: #ddd;
 
+$options-border-color: #6b583d;
+
 $banner-url: url('$lib/assets/banner.png');
 $options-banner-url: url('$lib/assets/optionsBanner.png');
 
 #randomizer-grid {
     display: grid;
-    grid-template-columns: 300px auto;
+    grid-template-columns: 330px auto;
     gap: 5px;
 }
 
 #randomizer-options {
     grid-column: 1;
+    position: absolute;
+    height: 100%;
+    overflow-y: auto;
 }
 
 #achievement-display {
     grid-column: 2;
+}
+
+#button-holder {
+    text-align: center;
+    margin: 15px auto;
 }
 
 #randomizer-button {
@@ -59,12 +69,10 @@ $options-banner-url: url('$lib/assets/optionsBanner.png');
     font-size: 28px;
     padding: 5px;
     padding-left: 20px;
-    border-bottom: 3px dashed black;
+    border-bottom: 3px dashed $options-border-color;
     margin: 10px 5px;
 }
 
 .option {
-    font-size: 16px;
-    padding: 3px;
-    margin: 10px;
+    margin: 0 auto;
 }

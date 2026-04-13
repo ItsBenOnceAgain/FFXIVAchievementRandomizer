@@ -1,0 +1,57 @@
+$primary-bg-color: #e1d9c8;
+$height: 229px;
+$dialogue-box-url: url('$lib/assets/dialogueBox.png');
+
+#placeholder-achievement-body {
+    display: grid;
+    height: $height;
+    background-color: $primary-bg-color;
+    border: 3px solid #6b583d;
+    border-radius: 20px;
+    margin: auto 8px;
+    filter: drop-shadow(5px 5px 5px #777);
+}
+
+#placeholder-achievement-name {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-size: 32px;
+    margin: 30px;
+}
+
+#achievement-description {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row: 2;
+    margin: 10px;
+}
+
+#dialogue-box-wrapper {
+    position: relative;
+}
+
+#moogle-static-container {
+    position: absolute;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+#moogle-static {
+    width: 200px;
+}
+
+#dialogue-box {
+    position: absolute;
+    background-image: $dialogue-box-url;
+    background-repeat: no-repeat;
+    margin-top: 25px;
+    margin-left: 300px;
+    width: 544px;
+    height: 144px;
+}
+
+#dialogue-text {
+    padding-left: 50px;
+    padding-top: 20px;
+    font-size: 1.2em;
+}

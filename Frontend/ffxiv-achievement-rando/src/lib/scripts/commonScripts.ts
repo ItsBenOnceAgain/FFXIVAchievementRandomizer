@@ -12,6 +12,7 @@ export function getCleanCategoryName(rawCategory: string): string {
             break;
         case "ITEMS":
             cleanCategory = "Items";
+            break;
         case "CRAFTING_AND_GATHERING":
             cleanCategory = "Crafting & Gathering";
             break;
