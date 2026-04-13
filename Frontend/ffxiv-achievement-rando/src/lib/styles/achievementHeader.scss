@@ -1,0 +1,24 @@
+$header-font-family: 'Enge Etienne';
+$header-font-src: url('/fonts/enge-etienne/OPTIEngeEtienne.otf') format('opentype');
+
+$primary-color: #333;
+
+@font-face {
+    font-family: $header-font-family;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: $header-font-src;
+}
+
+#achievement-header-content {
+    display: grid;
+    grid-template-columns: 400px auto auto auto auto;
+}
+
+#header-title {
+    grid-column: 1;
+    font-size: 48px;
+    color: $primary-color;
+    font-family: $header-font-family;
+}

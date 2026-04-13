@@ -1,14 +1,20 @@
 <script>
     import { Achievement, Title } from '$lib/models/models';
     import AchievementDisplay from '$lib/components/AchievementDisplay.svelte';
+    import PlaceholderAchievementDisplay from '$lib/components/PlaceholderAchievementDisplay.svelte';
     import AchievementCategoryOption from '$lib/components/AchievementCategoryOption.svelte';
+    import AdvancedOptionsToggle from '$lib/components/AdvancedOptionsToggle.svelte';
     import '$lib/styles/randomizer.scss';
+
+    import { fly } from 'svelte/transition';
 
     let achievement = $state(new Achievement());
     let loading = $state(false);
     let errorMessage = $state("");
     let baseAPIURL = 'http://localhost:5000';
     let baseAPIEndpoint = 'random_achievement';
+
+    let showAdvancedOptions = $state(false)
 
     // Category option states
     let battleChecked = $state(true);
@@ -21,6 +27,9 @@
     let grandCompanyChecked = $state(true);
     let legacyChecked = $state(false);
     let seasonalChecked = $state(false);
+
+    let allowEmpty = $state(false);
+    let allowBlacklisted = $state(false);
 
     let selectedCategoryValues = $derived([
         battleChecked ? 2 : null,
@@ -43,7 +52,8 @@
         loading = true;
         errorMessage = "";
         let categoryFilter = `allowed_categories=${selectedCategoryValues.join(',')}`;
-        let apiEndpoint = `${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}`;
+        let emptyFilter = `allow_empty_achievements=${allowEmpty}`;
+        let apiEndpoint = `${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&{emptyFilter}`;
 
         try {
             const response = await fetch(apiEndpoint);
@@ -78,15 +88,8 @@
 
 <div id="randomizer-grid">
     <div id="randomizer-options">
-        <button id="randomizer-button" onclick={fetchRandomAchievement} disabled={generateButtonIsDisabled()}>
-            {#if loading}
-                Loading...
-            {:else}
-                Generate!
-            {/if}
-        </button>
         <div id="options-header">
-            OPTIONS
+            <strong>OPTIONS</strong>
         </div>
         <div class="option"><AchievementCategoryOption category_name="BATTLE" bind:is_checked={battleChecked}/></div>
         <div class="option"><AchievementCategoryOption category_name="PVP" bind:is_checked={pvpChecked}/></div>
@@ -96,8 +99,15 @@
         <div class="option"><AchievementCategoryOption category_name="QUESTS" bind:is_checked={questsChecked}/></div>
         <div class="option"><AchievementCategoryOption category_name="EXPLORATION" bind:is_checked={explorationChecked}/></div>
         <div class="option"><AchievementCategoryOption category_name="GRAND_COMPANY" bind:is_checked={grandCompanyChecked}/></div>
-        <div class="option"><AchievementCategoryOption category_name="LEGACY" bind:is_checked={legacyChecked}/></div>
-        <div class="option"><AchievementCategoryOption category_name="SEASONAL" bind:is_checked={seasonalChecked}/></div>
+        <AdvancedOptionsToggle bind:show_options={showAdvancedOptions}/>
+        {#if showAdvancedOptions}
+            <div id="advanced-options" transition:fly={{ y: -50, duration: 100 }}>
+                <div class="option"><AchievementCategoryOption category_name="LEGACY" bind:is_checked={legacyChecked}/></div>
+                <div class="option"><AchievementCategoryOption category_name="SEASONAL" bind:is_checked={seasonalChecked}/></div>
+                <div class="option"><AchievementCategoryOption category_name="Allow Empty" bind:is_checked={allowEmpty} custom={true}/></div>
+                <div class="option"><AchievementCategoryOption category_name="Allow Blacklisted" bind:is_checked={allowBlacklisted} custom={true}/></div>
+            </div>
+        {/if}
     </div>
 
     <div id="achievement-display">
@@ -106,7 +116,18 @@
         </div>
         {#if achievement.id !== 0}
             <AchievementDisplay {achievement} />
+        {:else}
+            <PlaceholderAchievementDisplay />
         {/if}
+        <div id="button-holder">
+            <button id="randomizer-button" onclick={fetchRandomAchievement} disabled={generateButtonIsDisabled()}>
+                {#if loading}
+                    Loading...
+                {:else}
+                    Randomize!
+                {/if}
+            </button>
+        </div>
 
         {#if errorMessage}
             <p class="error">{errorMessage}</p>

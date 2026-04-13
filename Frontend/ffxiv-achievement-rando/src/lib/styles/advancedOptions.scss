@@ -1,0 +1,40 @@
+$options-banner-url: url('$lib/assets/advancedOptionsBanner.png');
+$options-border-color: #6b583d;
+
+#advanced-options-header {
+    background-image: $options-banner-url;
+    background-position: left;
+    background-size: fill;
+    background-repeat: no-repeat;
+    text-align: left;
+    font-size: 18px;
+    padding: 7px 0;
+    padding-left: 15px;
+    border-bottom: 3px dashed $options-border-color;
+    border-top: 3px dashed $options-border-color;
+    margin: 12px 5px;
+    display: flex;
+}
+
+#advanced-options-icon {
+    width: 30px;
+}
+
+#advanced-options-icon:hover {
+    filter: drop-shadow(1px 1px 1px #333);
+}
+
+#advanced-options-text {
+    margin: auto 0;
+    padding-left: 10px;
+}
+
+#option-toggle-button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}

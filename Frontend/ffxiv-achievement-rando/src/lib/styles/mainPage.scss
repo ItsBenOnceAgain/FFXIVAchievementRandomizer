@@ -1,21 +1,33 @@
 $background-image-height: 1028px;
 $background-image-width: 1500px;
 $background-image-url: url('$lib/assets/mainLayoutBackground.png');
-$content-top-margin: 200px;
 
 $full-background-url: url('$lib/assets/mapBackground.webp');
 
+$header-top-offset: 70px;
+$header-width: 1250px;
+$header-height: 100px;
+
+$content-top-offset: 200px;
 $content-width: 1250px;
 $content-height: 725px;
 
-$font-stack: Helvetica, sans-serif;
+$main-font-family: 'Open Sans';
+$main-font-src: url('/fonts/open-sans/OpenSans-Regular.ttf') format('truetype');
+
 $primary-color: #554039;
+
+@font-face {
+    font-family: $main-font-family;
+    font-display: swap;
+    src: $main-font-src;
+}
 
 body {
     background-image: $full-background-url;
     background-size: fill;
-    font: 100% $font-stack;
     color: $primary-color;
+    font-family: $main-font-family;
 }
 
 #main-page-scaler {
@@ -32,9 +44,25 @@ body {
     background-size: cover;
 }
 
+#main-page-header-wrapper {
+    position: relative;
+    top: $header-top-offset;
+    display: flex;
+    justify-content: center;
+}
+
+#main-page-header {
+    position: absolute;
+    width: $header-width;
+    height: $header-height;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
 #main-page-content-wrapper {
     position: relative;
-    margin-top: $content-top-margin;
+    top: $content-top-offset;
     display: flex;
     justify-content: center;
 }
