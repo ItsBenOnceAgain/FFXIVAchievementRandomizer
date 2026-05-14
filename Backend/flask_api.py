@@ -3,7 +3,7 @@ import flask
 import achievement_randomizer
 import achievement_file_manager
 import achievement_data_structs
-import jsonpickle
+from pydantic import TypeAdapter
 import random
 
 app = Flask(__name__)
@@ -16,14 +16,16 @@ def get_achievement(achievement_id):
     if achievement_id not in data:
         response = flask.Response("Achievement not found", status=404)
     else:
-        response = flask.Response(jsonpickle.encode(data[achievement_id], unpicklable=False))
+        adapter = TypeAdapter(dict[str, achievement_data_structs.Achievement])
+        response = flask.Response(adapter.dump_json(data[achievement_id], indent=4).decode())
     response.headers['Access-Control-Allow-Origin'] = frontend_url
     return response
 
 @app.route('/achievement_data', methods=['GET'])
 def get_all_achievements():
     data = achievement_file_manager.read_simple_achievement_data_from_file()
-    respone = flask.Response(jsonpickle.encode(data, unpicklable=False))
+    adapter = TypeAdapter(dict[str, achievement_data_structs.Achievement])
+    respone = flask.Response(adapter.dump_json(data, indent=4).decode())
     respone.headers['Access-Control-Allow-Origin'] = frontend_url
     return respone
 
@@ -34,7 +36,8 @@ def get_filtered_achievements():
     except achievement_data_structs.CategoryFormatException as e:
         return e.args[0], 400
 
-    response = flask.Response(jsonpickle.encode(data, unpicklable=False))
+    adapter = TypeAdapter(dict[str, achievement_data_structs.Achievement])
+    response = flask.Response(adapter.dump_json(data, indent=4).decode())
     response.headers['Access-Control-Allow-Origin'] = frontend_url
     return response
 
@@ -51,7 +54,8 @@ def get_random_achievement():
         random_key = list(data.keys())[random.randint(0, len(data) - 1)]
         random_achievement = data[random_key]
     
-    response = flask.Response(jsonpickle.encode(random_achievement, unpicklable=False))
+    adapter = TypeAdapter(dict[str, achievement_data_structs.Achievement])
+    response = flask.Response(adapter.dump_json(random_achievement, indent=4).decode())
     response.headers['Access-Control-Allow-Origin'] = frontend_url
     return response
     

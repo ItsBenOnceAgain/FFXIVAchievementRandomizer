@@ -53,7 +53,7 @@
         errorMessage = "";
         let categoryFilter = `allowed_categories=${selectedCategoryValues.join(',')}`;
         let emptyFilter = `allow_empty_achievements=${allowEmpty}`;
-        let apiEndpoint = `${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&{emptyFilter}`;
+        let apiEndpoint = `${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&${emptyFilter}`;
 
         try {
             const response = await fetch(apiEndpoint);
@@ -67,7 +67,7 @@
             achievement.name = data.name;
             achievement.description = data.description;
             achievement.icon_path = data.icon_path;
-            achievement.category = data.category._name_;
+            achievement.category = data.category;
             achievement.hide_achievement = data.hide_achievement;
             achievement.item_reward = data.item_reward;
             achievement.item_icon_path = data.item_icon_path;

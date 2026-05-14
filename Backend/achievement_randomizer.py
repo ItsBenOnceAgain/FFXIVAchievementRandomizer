@@ -13,7 +13,7 @@ def achievement_filter(key_value_pair, filter_settings: achievement_data_structs
         filter_settings = achievement_data_structs.FilterSettings()
     if filter_settings.allow_empty_achievements == False and (value.name == "None" or value.name.strip() == ""):
         is_valid = False
-    if value.category.value not in filter_settings.allowed_categories:
+    if list(achievement_data_structs.AchievementKind).index(value.category) not in filter_settings.allowed_categories:
         is_valid = False
     if key in filter_settings.blacklisted_achievement_ids:
         is_valid = False
