@@ -2,6 +2,12 @@ $primary-bg-color: #e1d9c8;
 $height: 229px;
 $dialogue-box-url: url('$lib/assets/dialogueBox.png');
 
+@keyframes moogleFloating {
+    0% { transform: translateY(0px) }
+    50% { transform: translateY(20px) }
+    100% { transform: translateY(0px) }
+}
+
 #placeholder-achievement-body {
     display: grid;
     height: $height;
@@ -38,6 +44,9 @@ $dialogue-box-url: url('$lib/assets/dialogueBox.png');
 
 #moogle-static {
     width: 200px;
+    animation-name: moogleFloating;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
 }
 
 #dialogue-box {
