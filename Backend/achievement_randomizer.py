@@ -39,6 +39,7 @@ def get_achievement_object_from_id(achievement_id, data):
 
 
 def main():
+    achievement_file_manager.write_data_to_file_from_server()
     update_achievement_data()
 
 def update_achievement_data():
