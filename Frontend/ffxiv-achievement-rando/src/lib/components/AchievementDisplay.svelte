@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Achievement } from '$lib/models/models';
-    import { getCleanCategoryName } from '$lib/scripts/commonScripts';
     import AchievementIcon from '$lib/components/AchievementIcon.svelte';
     import AchievementReward from '$lib/components/AchievementReward.svelte';
     import AchievementPointDisplay from '$lib/components/AchievementPointDisplay.svelte';
@@ -20,7 +19,7 @@
     </div>
     <div id="achievement-details">
         <div id="category">
-            <strong>{getCleanCategoryName(achievement.category)}</strong>
+            <strong>{achievement.category}</strong>
         </div>
         <div id="reward">
             <AchievementReward achievement={achievement} />
