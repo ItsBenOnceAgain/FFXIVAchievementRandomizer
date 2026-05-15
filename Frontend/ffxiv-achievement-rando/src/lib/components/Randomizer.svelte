@@ -63,7 +63,6 @@
 
             const data = await response.json();
             achievement = new Achievement();
-            achievement.id = data.id;
             achievement.name = data.name;
             achievement.description = data.description;
             achievement.icon_path = data.icon_path;
@@ -76,6 +75,7 @@
             achievement.title.feminine_title = data.title.feminine_title;
             achievement.title.masculine_title = data.title.masculine_title;
             achievement.title.is_prefix = data.title.is_prefix;
+            achievement.id = data.id;
 
         } catch (error) {
             errorMessage = error instanceof Error ? error.message : String(error);

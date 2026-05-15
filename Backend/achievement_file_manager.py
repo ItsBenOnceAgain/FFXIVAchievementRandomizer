@@ -14,8 +14,8 @@ def read_simple_achievement_data_from_file():
 
 def write_simple_achievement_data_to_file(data):
     with open(f"{file_path}FFXIV_Simple_Achievement_Data.json", "w", encoding="utf-8") as file:
-        adapter = TypeAdapter(dict[str, achievement_data_structs.Achievement])
-        formatted_json = adapter.dump_json(data, indent=4).decode()
+        adapter = TypeAdapter(list[achievement_data_structs.Achievement])
+        formatted_json = adapter.dump_json(list(data.values()), indent=4).decode()
         file.write(formatted_json)
 
 def read_achievement_data_from_file():
