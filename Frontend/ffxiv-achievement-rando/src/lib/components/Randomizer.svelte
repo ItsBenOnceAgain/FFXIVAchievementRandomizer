@@ -32,16 +32,16 @@
     let allowBlacklisted = $state(false);
 
     let selectedCategoryValues = $derived([
-        battleChecked ? 2 : null,
-        pvpChecked ? 3 : null,
-        characterChecked ? 4 : null,
-        itemsChecked ? 5 : null,
-        craftingChecked ? 6 : null,
-        questsChecked ? 7 : null,
-        explorationChecked ? 8 : null,
-        grandCompanyChecked ? 9 : null,
-        legacyChecked ? 10 : null,
-        seasonalChecked ? 11 : null,
+        battleChecked ? "Battle" : null,
+        pvpChecked ? "PVP" : null,
+        characterChecked ? "Character" : null,
+        itemsChecked ? "Items" : null,
+        craftingChecked ? "Crafting & Gathering" : null,
+        questsChecked ? "Quests" : null,
+        explorationChecked ? "Exploration" : null,
+        grandCompanyChecked ? "Grand Company" : null,
+        legacyChecked ? "Legacy" : null,
+        seasonalChecked ? "Seasonal" : null,
     ].filter(v => v !== null));
 
     function generateButtonIsDisabled() {
@@ -53,7 +53,7 @@
         errorMessage = "";
         let categoryFilter = `allowed_categories=${selectedCategoryValues.join(',')}`;
         let emptyFilter = `allow_empty_achievements=${allowEmpty}`;
-        let apiEndpoint = `${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&${emptyFilter}`;
+        let apiEndpoint = encodeURI(`${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&${emptyFilter}`);
 
         try {
             const response = await fetch(apiEndpoint);
