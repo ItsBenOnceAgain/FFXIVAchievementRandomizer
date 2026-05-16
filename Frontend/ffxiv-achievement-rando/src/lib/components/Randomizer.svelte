@@ -13,8 +13,8 @@
     let loading = $state(false);
     let has_randomized = $state(false);
     let errorMessage = $state("");
-    let baseAPIURL = 'http://localhost:5000';
-    let baseAPIEndpoint = 'random_achievement';
+    let baseAPIURL = 'http://localhost:3000';
+    let baseAPIEndpoint = 'achievements/random';
 
     /**
      * @type {HTMLAudioElement}
@@ -66,7 +66,7 @@
         errorMessage = "";
         achievement = new Achievement();
         let categoryFilter = `allowed_categories=${selectedCategoryValues.join(',')}`;
-        let emptyFilter = `allow_empty_achievements=${allowEmpty}`;
+        let emptyFilter = `allow_empty=${allowEmpty}`;
         let apiEndpoint = encodeURI(`${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&${emptyFilter}`);
         let new_achievement = new Achievement();
 
