@@ -1,18 +1,21 @@
 import json
-import jsonpickle
 import api_caller
 import achievement_data_structs
+
+from pydantic import TypeAdapter
 
 file_path = "AchievementData\\"
 
 def read_simple_achievement_data_from_file():
-    file = open(f"{file_path}FFXIV_Simple_Achievement_Data.json", "r")
-    achievement_data = jsonpickle.decode(file.read())
+    file = open(f"{file_path}FFXIV_Simple_Achievement_Data.json", "r", encoding="utf-8")
+    adapter = TypeAdapter(dict[str, achievement_data_structs.Achievement])
+    achievement_data = adapter.validate_json(file.read())
     return achievement_data
 
 def write_simple_achievement_data_to_file(data):
-    with open(f"{file_path}FFXIV_Simple_Achievement_Data.json", "w") as file:
-        formatted_json = jsonpickle.encode(data, indent=4)
+    with open(f"{file_path}FFXIV_Simple_Achievement_Data.json", "w", encoding="utf-8") as file:
+        adapter = TypeAdapter(list[achievement_data_structs.Achievement])
+        formatted_json = adapter.dump_json(list(data.values()), indent=4).decode()
         file.write(formatted_json)
 
 def read_achievement_data_from_file():
@@ -24,7 +27,7 @@ def read_achievement_data_from_file():
         entry_data = achievement_data[achievement_id]["fields"]
 
         achievement = achievement_data_structs.Achievement()
-        achievement.id = achievement_id
+        achievement.id = int(achievement_id)
         achievement.name = str(entry_data["Name"])
         achievement.description = str(entry_data["Description"])
         achievement.icon_path = str(entry_data["Icon"]["path_hr1"])

@@ -4,15 +4,22 @@
     import PlaceholderAchievementDisplay from '$lib/components/PlaceholderAchievementDisplay.svelte';
     import AchievementCategoryOption from '$lib/components/AchievementCategoryOption.svelte';
     import AdvancedOptionsToggle from '$lib/components/AdvancedOptionsToggle.svelte';
+    import moogleSoundFile from '$lib/assets/moogleSound.mp3';
     import '$lib/styles/randomizer.scss';
 
     import { fly } from 'svelte/transition';
 
     let achievement = $state(new Achievement());
     let loading = $state(false);
+    let has_randomized = $state(false);
     let errorMessage = $state("");
     let baseAPIURL = 'http://localhost:5000';
     let baseAPIEndpoint = 'random_achievement';
+
+    /**
+     * @type {HTMLAudioElement}
+     */
+    let moogleSound;
 
     let showAdvancedOptions = $state(false)
 
@@ -32,28 +39,36 @@
     let allowBlacklisted = $state(false);
 
     let selectedCategoryValues = $derived([
-        battleChecked ? 2 : null,
-        pvpChecked ? 3 : null,
-        characterChecked ? 4 : null,
-        itemsChecked ? 5 : null,
-        craftingChecked ? 6 : null,
-        questsChecked ? 7 : null,
-        explorationChecked ? 8 : null,
-        grandCompanyChecked ? 9 : null,
-        legacyChecked ? 10 : null,
-        seasonalChecked ? 11 : null,
+        battleChecked ? "Battle" : null,
+        pvpChecked ? "PVP" : null,
+        characterChecked ? "Character" : null,
+        itemsChecked ? "Items" : null,
+        craftingChecked ? "Crafting & Gathering" : null,
+        questsChecked ? "Quests" : null,
+        explorationChecked ? "Exploration" : null,
+        grandCompanyChecked ? "Grand Company" : null,
+        legacyChecked ? "Legacy" : null,
+        seasonalChecked ? "Seasonal" : null,
     ].filter(v => v !== null));
 
     function generateButtonIsDisabled() {
         return selectedCategoryValues.length == 0 || loading
     }
 
+    function playMoogleSound() {
+        moogleSound.currentTime = 0;
+        moogleSound.play();
+    }
+
     async function fetchRandomAchievement() {
+        playMoogleSound();
         loading = true;
         errorMessage = "";
+        achievement = new Achievement();
         let categoryFilter = `allowed_categories=${selectedCategoryValues.join(',')}`;
         let emptyFilter = `allow_empty_achievements=${allowEmpty}`;
-        let apiEndpoint = `${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&{emptyFilter}`;
+        let apiEndpoint = encodeURI(`${baseAPIURL}/${baseAPIEndpoint}?${categoryFilter}&${emptyFilter}`);
+        let new_achievement = new Achievement();
 
         try {
             const response = await fetch(apiEndpoint);
@@ -62,29 +77,37 @@
             }
 
             const data = await response.json();
-            achievement = new Achievement();
-            achievement.id = data.id;
-            achievement.name = data.name;
-            achievement.description = data.description;
-            achievement.icon_path = data.icon_path;
-            achievement.category = data.category._name_;
-            achievement.hide_achievement = data.hide_achievement;
-            achievement.item_reward = data.item_reward;
-            achievement.item_icon_path = data.item_icon_path;
-            achievement.points = data.points;
-            achievement.title = new Title();
-            achievement.title.feminine_title = data.title.feminine_title;
-            achievement.title.masculine_title = data.title.masculine_title;
-            achievement.title.is_prefix = data.title.is_prefix;
+            new_achievement.name = data.name;
+            new_achievement.description = data.description;
+            new_achievement.icon_path = data.icon_path;
+            new_achievement.category = data.category;
+            new_achievement.hide_achievement = data.hide_achievement;
+            new_achievement.item_reward = data.item_reward;
+            new_achievement.item_icon_path = data.item_icon_path;
+            new_achievement.points = data.points;
+            new_achievement.title = new Title();
+            new_achievement.title.feminine_title = data.title.feminine_title;
+            new_achievement.title.masculine_title = data.title.masculine_title;
+            new_achievement.title.is_prefix = data.title.is_prefix;
+            new_achievement.id = data.id;
 
         } catch (error) {
             errorMessage = error instanceof Error ? error.message : String(error);
-            achievement = new Achievement();
+            new_achievement = new Achievement();
         } finally {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            achievement = new_achievement;
             loading = false;
+            has_randomized = true;
         }
     }
 </script>
+
+<audio 
+    bind:this={moogleSound}
+    src="{moogleSoundFile}"
+    preload="auto"
+></audio>
 
 <div id="randomizer-grid">
     <div id="randomizer-options">
@@ -117,7 +140,7 @@
         {#if achievement.id !== 0}
             <AchievementDisplay {achievement} />
         {:else}
-            <PlaceholderAchievementDisplay />
+            <PlaceholderAchievementDisplay is_reroll={has_randomized} is_loading={loading} />
         {/if}
         <div id="button-holder">
             <button id="randomizer-button" onclick={fetchRandomAchievement} disabled={generateButtonIsDisabled()}>
