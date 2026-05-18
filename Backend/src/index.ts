@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { collections, connectToDatabase } from "./services/database.service";
+import { collections, connectToDatabase } from './services/database.service';
 import Achievement from './models/achievement';
 import Filter from './models/filter';
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
+import * as nodestone from '@xivapi/nodestone';
 
 dotenv.config();
 
@@ -19,6 +20,26 @@ const corsOptions = {
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors(corsOptions));
+
+app.get('/lodestone/character/:id', async (req: Request, res: Response) => {
+	const characterParser = new nodestone.Character();
+	try {
+		const characterData = await characterParser.parse({ params: { characterId: req.params.id } } as any);
+		res.status(200).json(characterData);
+	} catch (error) {
+		res.status(500).json({ message: 'An error occurred while fetching character data.', error: error instanceof Error ? error.message : 'Unknown error' });
+	}
+});
+
+app.get('/lodestone/character_achievements/:id', async (req: Request, res: Response) => {
+	const achievementParser = new nodestone.Achievements();
+	try {
+		const achievementData = await achievementParser.parse({ params: { characterId: req.params.id} } as any);
+		res.status(200).json(achievementData);
+	} catch (error) {
+		res.status(500).json({ message: 'An error occurred while fetching character data.', error: error instanceof Error ? error.message : 'Unknown error' });
+	}
+});
 
 app.get('/achievements', async (req: Request, res: Response) => {
 	try{
